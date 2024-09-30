@@ -29,8 +29,8 @@ def menuProductos(productos):
 
 def generarVenta():
     productos = {
-        "M-001": {"id": 1, "nombre": "Monitor", "stock": 10, "precio": 500, "categoria": "monitor"},
-        "T-001": {"id": 2, "nombre": "Teclado", "stock": 5, "precio": 100, "categoria": "teclado"},
+        "M-001": {"nombre": "Monitor", "stock": 10, "precio": 500, "categoria": "monitor"},
+        "T-001": {"nombre": "Teclado", "stock": 5, "precio": 100, "categoria": "teclado"},
     }
 
     print("---------------------------")
