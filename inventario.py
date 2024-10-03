@@ -1,28 +1,55 @@
-def VerProductos(dic):
+import funciones
+
+def verProductos(dic):
+    """
+    Función para visualizar un listado de productos
+    Recibe: Diccionario
+    Devuelve: Nada
+    """
     for codigo, detalles in dic.items():
         print(f"Codigo: {codigo} | Nombre: {detalles["nombre"]} | Stock: {detalles["stock"]} | Precio: {detalles["precio"]} | Categoría: {detalles["categoria"]}")
     return
 
-def AgregarProductos(dic):
+def agregarProductos(dic):
+    """
+    Función para agregar un nuevo producto al listado
+    Recibe: Diccionario
+    Devuelve: Booleano
+    """
+    exito = True
     codigo = input("Ingrese el codigo del producto: ").upper()
-    
+    seguirIngresando = True
     while codigo in dic:
         print(f"El codigo {codigo} ya existe")
         codigo = input("Ingrese el codigo del producto: ").upper()
             
     nombre = input("Ingrese el nombre del producto: ")
-    stock = input("Ingrese el stock del producto: ")
-    precio = input("Ingrese el precio por unidad del producto: ")
-    categoria = input("Ingrese el categoria del producto: ").lower()
-    dic[codigo] = {
-        "nombre": nombre,
-        "stock": stock,
-        "precio": precio,
-        "categoria": categoria
-    }
-    return
+    stock = int(input("Ingrese el stock del producto: "))
+    precio = int(input("Ingrese el precio por unidad del producto: "))
+    categoria = input("Ingrese la categoria del producto: ").lower()
+    agregar = input("Esta seguro que desea agregar el nuevo producto? Si/No: ").lower()
 
-def ModificarProducto(dic):
+    while agregar != "si" and agregar != "no":
+        print("Opcion no valida")
+        agregar = input("Esta seguro que desea agregar el nuevo producto? Si/No: ").lower()
+
+    if agregar == "si":
+        dic[codigo] = {
+            "nombre": nombre,
+            "stock": stock,
+            "precio": precio,
+            "categoria": categoria
+        }
+    else:
+        exito = False
+    return exito
+
+def modificarProducto(dic):
+    """
+    Función para modificar valores de un producto del listado
+    Recibe: Diccionario
+    Devuelve: 
+    """
     codigo = input("Ingrese el codigo del producto que desea modificar: ").upper()        
     while codigo not in dic:
         print(f"El codigo {codigo} ya existe")
@@ -56,25 +83,40 @@ def ModificarProducto(dic):
             nombre = input("Ingrese un nuevo nombre: ")
             dic[codigo]['nombre'] = nombre
         elif opcion == "2":   # Modificar stock
-            stock = input("Ingrese un nuevo stock: ")
+            stock = int(input("Ingrese un nuevo stock: "))
             dic[codigo]['stock'] = stock
         elif opcion == "3":   # Modificar precio
-            precio = input("Ingrese un nuevo precio: ")
-            dic[codigo]['nombre'] = precio
+            precio = int(input("Ingrese un nuevo precio: "))         
         elif opcion == "4":   # Modificar categoria
             categoria = input("Ingrese un nuevo nombre")
-            dic[codigo]['categoria'] = categoria               
+            dic[codigo]['categoria'] = categoria             
     return 
 
-def EliminarProductos(dic):
+
+def eliminarProductos(dic):
+    """
+    Función para eliminar un producto del listado
+    Recibe: Diccionario
+    Devuelve: Booleano
+    """
+    exito = True
     codigo = input("Ingrese el codigo del producto que desea eliminar: ").upper()
     
     while codigo not in dic:
         print(f"El codigo {codigo} no existe")
         codigo = input("Ingrese el codigo del producto que desea eliminar: ").upper()
-    dic.pop(codigo)
-    print(f"El producto {codigo} ha sido eliminado con exito")
-    return
+
+    eliminar = input("Esta seguro que desea eliminar el producto? Si/No: ").lower()
+
+    while eliminar != "si" and eliminar != "no":
+        print("Opcion no valida")
+        eliminar = input("Esta seguro que desea eliminar el producto? Si/No: ").lower()
+
+    if eliminar == "si":
+        dic.pop(codigo)
+    else:
+        exito = False
+    return exito
 
 productos = {
     "M-001": {"nombre": "Monitor", "stock": 10, "precio": 500, "categoria": "monitor"},
@@ -99,6 +141,11 @@ productos = {
     "S-002": {"nombre": "Silla Ejecutiva", "stock": 6, "precio": 250, "categoria": "mobiliario"}
 }
 def gestionInventario():
+    """
+    Función que representa el main del inventario
+    Recibe: Nada
+    Devuelve: Nada
+    """
     while True:
             opciones = 5
             while True:
@@ -125,10 +172,17 @@ def gestionInventario():
                 exit() # También puede ser sys.exit() para lo cual hay que importar el módulo sys
 
             elif opcion == "1":   # Generar Venta
-                VerProductos(productos)
+                verProductos(productos)
             elif opcion == "2":   # Administrar Inventario
-                AgregarProductos(productos)
+                if agregarProductos(productos):
+                    print("Producto agregado con exito")
+                else:
+                    print("El producto no fue agregado")
             elif opcion == "3":   # Administrar Clientes
-                ModificarProducto(productos)
+                modificarProducto(productos)
             elif opcion == "4":   # Historial de Ventas
-                EliminarProductos(productos)
+                if eliminarProductos(productos):
+                    print("Producto eliminado con exito")
+                else:
+                    print("El producto no fue eliminado")
+    return
