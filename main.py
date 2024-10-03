@@ -29,7 +29,7 @@ Marcar realizados con "X"
 #----------------------------------------------------------------------------------------------
 # MÓDULOS
 #----------------------------------------------------------------------------------------------
-import ventas
+import ventas, inventario
 
 
 #----------------------------------------------------------------------------------------------
@@ -82,6 +82,7 @@ def main():
             ventas.generarVenta()
         elif opcion == "2":   # Administrar Inventario
             print("Llamar a administrar inventario")
+            inventario.gestionInventario()
         elif opcion == "3":   # Administrar Clientes
             print("Llamar a administrar clientes")
         elif opcion == "4":   # Historial de Ventas
