@@ -17,8 +17,11 @@ def agregarProductos(dic):
     Devuelve: Booleano
     """
     exito = True
-    codigo = input("Ingrese el codigo del producto: ").upper()
-    seguirIngresando = True
+    codigo = input("Ingrese el codigo del producto o 0 para volver al menu: ").upper()
+
+    if codigo == "0":
+        return
+
     while codigo in dic:
         print(f"El codigo {codigo} ya existe")
         codigo = input("Ingrese el codigo del producto: ").upper()
@@ -50,7 +53,9 @@ def modificarProducto(dic):
     Recibe: Diccionario
     Devuelve: 
     """
-    codigo = input("Ingrese el codigo del producto que desea modificar: ").upper()        
+    codigo = input("Ingrese el codigo del producto que desea modificar o 0 para volver: ").upper()  
+    if codigo == "0":
+        return      
     while codigo not in dic:
         print(f"El codigo {codigo} ya existe")
         codigo = input("Ingrese el codigo del producto que desea modificar: ").upper()            
@@ -100,7 +105,9 @@ def eliminarProductos(dic):
     Devuelve: Booleano
     """
     exito = True
-    codigo = input("Ingrese el codigo del producto que desea eliminar: ").upper()
+    codigo = input("Ingrese el codigo del producto que desea eliminar o 0 para volver: ").upper()
+    if codigo == "0":
+        return
     
     while codigo not in dic:
         print(f"El codigo {codigo} no existe")
