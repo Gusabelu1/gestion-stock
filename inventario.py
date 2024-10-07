@@ -86,12 +86,12 @@ def modificarProducto(dic):
             stock = int(input("Ingrese un nuevo stock: "))
             dic[codigo]['stock'] = stock
         elif opcion == "3":   # Modificar precio
-            precio = int(input("Ingrese un nuevo precio: "))         
+            precio = int(input("Ingrese un nuevo precio: "))
+            dic[codigo]['precio'] = precio
         elif opcion == "4":   # Modificar categoria
-            categoria = input("Ingrese un nuevo nombre")
+            categoria = input("Ingrese un nuevo nombre: ")
             dic[codigo]['categoria'] = categoria             
     return 
-
 
 def eliminarProductos(dic):
     """
@@ -140,6 +140,7 @@ productos = {
     "E-002": {"nombre": "Escritorio Ajustable", "stock": 2, "precio": 400, "categoria": "mobiliario"},
     "S-002": {"nombre": "Silla Ejecutiva", "stock": 6, "precio": 250, "categoria": "mobiliario"}
 }
+
 def gestionInventario():
     """
     Función que representa el main del inventario
