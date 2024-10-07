@@ -77,7 +77,7 @@ def modificarProducto(dic):
         print()
 
         if opcion == "0": # Opción salir del programa
-            return   # También puede ser sys.exit() para lo cual hay que importar el módulo sys
+            break
 
         elif opcion == "1":   # Modificar nombre
             nombre = input("Ingrese un nuevo nombre: ")
@@ -159,7 +159,7 @@ def gestionInventario():
                 print("[3] Modificar productos")
                 print("[4] Eliminar productos")
                 print("---------------------------")
-                print("[0] Salir del programa")
+                print("[0] Volver al menú")
                 print()
                 
                 opcion = input("Seleccione una opción: ")
@@ -170,7 +170,7 @@ def gestionInventario():
             print()
 
             if opcion == "0": # Opción salir del programa
-                exit() # También puede ser sys.exit() para lo cual hay que importar el módulo sys
+                break
 
             elif opcion == "1":   # Generar Venta
                 verProductos(productos)
