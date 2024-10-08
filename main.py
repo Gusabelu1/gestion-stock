@@ -29,7 +29,7 @@ Marcar realizados con "X"
 #----------------------------------------------------------------------------------------------
 # MÓDULOS
 #----------------------------------------------------------------------------------------------
-import ventas, inventario, clientes
+import ventas, inventario, clientes, compras
 
 
 #----------------------------------------------------------------------------------------------
@@ -44,11 +44,11 @@ def main():
     # Inicialización de variables
     #----------------------------------------------------------------------------------------------
 
-    #-------------------------------------------------
+    #----------------------------------------------------------------------------------------------
     # Bloque de menú
     #----------------------------------------------------------------------------------------------
     while True:
-        opciones = 5
+        opciones = 6
         while True:
             print()
             print("---------------------------")
@@ -58,6 +58,7 @@ def main():
             print("[2] Administrar inventario")
             print("[3] Administar clientes")
             print("[4] Historial de ventas")
+            print("[5] Administrar compra")
             print("---------------------------")
             print("[0] Salir del programa")
             print()
@@ -83,7 +84,9 @@ def main():
             clientes.gestionClientes()
         elif opcion == "4":   # Historial de Ventas
             print("Llamar a historial de ventas")
-
-
+        elif opcion == "5":
+            print("Llamar a generar compras")
+            compras.generarCompra()
+            
 # Punto de entrada al programa
 main()
