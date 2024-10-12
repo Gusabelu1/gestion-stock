@@ -1,0 +1,12 @@
+{
+    "CL-001": {
+        "nombre": "Juan",
+        "email": "juan@gmail.com",
+        "tel": 1123456789
+    },
+    "CL-002": {
+        "nombre": "Juan",
+        "email": "juan@gmail.com",
+        "tel": 1123456789
+    }
+}

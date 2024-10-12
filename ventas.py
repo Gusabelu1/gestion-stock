@@ -14,12 +14,12 @@ Pendientes:
 # MÓDULOS
 #----------------------------------------------------------------------------------------------
 import inventario
+import archivos
 
 #----------------------------------------------------------------------------------------------
 # FUNCIONES
 #----------------------------------------------------------------------------------------------
 def menuProductos(productos):
-    opciones = len(productos)
     listaProductos = []
 
     while True:
@@ -40,14 +40,14 @@ def menuProductos(productos):
                 print(productos[opcion])
                 while True:
                     print()
-                    print("¿Cuantos quiere agregar?")
-                    print("[0] Cancelar")
+                    cantidad = input("Ingrese la cantidad | [0] Cancelar: ")
 
-                    cantidad = input("Ingrese la cantidad: ")
                     if cantidad == "0":
                         break
                     elif int(cantidad) > 0 and int(cantidad) <= int(productos[opcion]["stock"]):
-                        listaProductos.append((opcion, int(cantidad)))
+                        if opcion not in listaProductos:
+                            listaProductos.append((opcion, int(cantidad)))
+
                         productos[opcion]["stock"] -= int(cantidad)
                         break
                     else:
@@ -70,12 +70,19 @@ def generarVenta():
     listaProductos = []
     print("")
 
-    opciones = 2
+    categorias = set()
+    for producto in inventario.productos.values():
+        categorias.add(producto["categoria"])
+    
+    opciones = len(categorias)
     while True:
         print("---------------------------")
         print("CATEGORIAS DE PRODUCTOS")
         print("---------------------------")
-        print("[1] Monitores")
+
+        for i, categoria in enumerate(sorted(categorias), start=1):
+            print(f"[{i}] {categoria.capitalize()}")
+        
         print("---------------------------")
         print("[0] Cancelar")
         print("[X] Generar Venta")
@@ -86,14 +93,17 @@ def generarVenta():
             print(listaProductos)
             break
         
-        if opcion in [str(i) for i in range(0, opciones)]: # Sólo continua si se elije una opcion de menú válida
+        if opcion in [str(i) for i in range(0, opciones + 1)]: # Sólo continua si se elije una opcion de menú válida
             if opcion == "0": # Opción salir del programa
                 break
-            elif opcion == "1":   # Generar Venta
-                print("Menu de Monitores")
-                productos_filtrados = {producto_id: detalles for producto_id, detalles in inventario.productos.items() if detalles["categoria"] == "monitor"}
-                # inventario.verProductos(productos_filtrados)
-                listaProductos.append(menuProductos(productos_filtrados))
+            else:
+                for i, categoria in enumerate(sorted(categorias), start=1):
+                    if int(opcion) == i:
+                        print(f"Menu de {categoria}")
+                        productos_filtrados = {producto_id: detalles for producto_id, detalles in inventario.productos.items() if detalles["categoria"] == categoria}
+
+                        listaProductos.append(menuProductos(productos_filtrados))
+                        break
         else:
             input("Opción inválida. Presione ENTER para volver a seleccionar.")
     print()
