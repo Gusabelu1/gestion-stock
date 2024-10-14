@@ -1,60 +1,98 @@
 import json
 
+usuario = "admin"
+
 def leer_archivo(archivo):
-    """Lee el contenido de un archivo .json y devuelve los datos como un diccionario."""
+    """
+        Lee el .json especificado y devuelve los datos como un diccionario.
+        Recibe: String
+        Devuelve: Diccionario o Int
+    """
     try:
         with open(archivo, 'r') as f:
             return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return {}  # Si no existe el archivo o está vacío, devuelve un diccionario vacío
+    except:
+        if usuario == "admin":
+            print("Ocurrio un error al leer el archivo.")
+        return 1
 
 def escribir_archivo(archivo, datos):
-    """Escribe los datos en un archivo .json."""
-    with open(archivo, 'w') as f:
-        json.dump(datos, f, indent=4)
+    """
+        Escribe los datos en un .json especificado.
+        Recibe: String y Diccionario
+        Devuelve: Int
+    """
+    try:
+        with open(archivo, 'w') as f:
+            json.dump(datos, f, indent=4)
+        return 0
+    except:
+        if usuario == "admin":
+            print("Ocurrió un error al escribir en el archivo.")
+        return 1
 
-def crear(archivo, nuevo_dato):
-    """Crea una nueva entrada en el archivo .json, usando un diccionario de diccionarios."""
-    datos = leer_archivo(archivo)
-    
-    # nuevo_dato es un diccionario con el formato {"CL-001": {...}}
-    id_cliente = list(nuevo_dato.keys())[0]  # Obtenemos la clave del diccionario
-    
-    if id_cliente in datos:
-        print(f"El ID {id_cliente} ya existe en {archivo}")
-        return
-    
-    # Agregamos el nuevo dato al diccionario de datos
-    datos[id_cliente] = nuevo_dato[id_cliente]
-    escribir_archivo(archivo, datos)
-    print(f"Entrada agregada con ID {id_cliente} en {archivo}")
+def crear(archivo, data):
+    """
+        Crea un nuevo registro en el .json.
+        Recibe: String y Diccionario
+        Devuelve: Int
+    """
+    try:
+        datos = leer_archivo(archivo)
+        
+        id = list(data.keys())[0]
+        
+        if id in datos:
+            print(f"Ya existe un registro con el ID {id} en {archivo}.")
+            return 1
+        
+        datos[id] = data[id]
+        escribir_archivo(archivo, datos)
+        print(f"Se agregó el registro con el ID {id} en {archivo}")
+        return 0
+    except:
+        return 1
 
 def leer_todo(archivo):
-    """Lee todas las entradas de un archivo .json."""
+    """
+        Lee todos los registros del .json.
+        Recibe: String
+        Devuelve: Diccionario o Int
+    """
+    
     return leer_archivo(archivo)
 
-def actualizar(archivo, datos_actualizados):
-    """Actualiza una entrada en el archivo .json usando un diccionario de diccionarios."""
+def actualizar(archivo, id, data):
+    """
+        Actualiza un registro en el .json.
+        Recibe: String y Diccionario
+        Devuelve: Int
+    """
     datos = leer_archivo(archivo)
-    id_cliente = list(datos_actualizados.keys())[0]  # Obtenemos la clave del diccionario
     
-    if id_cliente in datos:
-        datos[id_cliente] = datos_actualizados[id_cliente]  # Actualizamos los datos
-        escribir_archivo(archivo, datos)
-        print(f"Entrada con ID {id_cliente} actualizada en {archivo}")
+    if id in datos:
+        datos[id] = data  # Actualizamos los datos
+        print(f"Se modificó el registro con el ID {id} en {archivo}")
+        return escribir_archivo(archivo, datos)
     else:
-        print(f"Entrada con ID {id_cliente} no encontrada en {archivo}")
+        print(f"No se encontró el registro con el ID {id} en {archivo}")
+        return 1
 
-def borrar(archivo, id_cliente):
-    """Borra una entrada en el archivo .json según el ID del cliente."""
+def borrar(archivo, id):
+    """
+        Borra un registro en el .json según el ID del registro.
+        Recibe: String y Int
+        Devuelve: Int
+    """
     datos = leer_archivo(archivo)
     
-    if id_cliente in datos:
-        del datos[id_cliente]
-        escribir_archivo(archivo, datos)
-        print(f"Entrada con ID {id_cliente} borrada de {archivo}")
+    if id in datos:
+        del datos[id]
+        print(f"Se borró el registro con el ID {id} de {archivo}")
+        return escribir_archivo(archivo, datos)
     else:
-        print(f"Entrada con ID {id_cliente} no encontrada en {archivo}")
+        print(f"No se encontró el registro con el ID {id} en {archivo}")
+        return 1
 
 # Definir archivos
 archivo_clientes = 'clientes.json'

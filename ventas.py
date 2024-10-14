@@ -20,7 +20,8 @@ import archivos
 # FUNCIONES
 #----------------------------------------------------------------------------------------------
 def menuProductos(productos):
-    listaProductos = []
+    listaProductos = {}
+    subtotal = 0
 
     while True:
         print()
@@ -32,7 +33,7 @@ def menuProductos(productos):
         print("[0] Volver a las categorías")
         print()
         
-        opcion = input("Seleccione una opción: ")
+        opcion = input("Seleccione un producto escribiendo su ID: ")
         if opcion == "0" or opcion in [codigo for codigo in productos]: # Sólo continua si se elije una opcion de menú válida
             if opcion == "0":
                 break
@@ -46,9 +47,10 @@ def menuProductos(productos):
                         break
                     elif int(cantidad) > 0 and int(cantidad) <= int(productos[opcion]["stock"]):
                         if opcion not in listaProductos:
-                            listaProductos.append((opcion, int(cantidad)))
+                            productos[opcion]["stock"] -= int(cantidad)
+                            subtotal += int(cantidad) * float(productos[opcion]["precio"])
+                            listaProductos.update({opcion: productos[opcion]})
 
-                        productos[opcion]["stock"] -= int(cantidad)
                         break
                     else:
                         input("Opción inválida. Presione ENTER para volver a seleccionar.")
@@ -56,7 +58,7 @@ def menuProductos(productos):
             input("Opción inválida. Presione ENTER para volver a seleccionar.")
     print()
 
-    return listaProductos
+    return listaProductos, subtotal
 
 #----------------------------------------------------------------------------------------------
 # CUERPO PRINCIPAL
@@ -68,10 +70,11 @@ def generarVenta():
 
     cliente = input("Ingrese el nombre del cliente: ")
     listaProductos = []
+    total = 0
     print("")
 
     categorias = set()
-    for producto in inventario.productos.values():
+    for producto in archivos.leer_todo(archivos.archivo_productos).values():
         categorias.add(producto["categoria"])
     
     opciones = len(categorias)
@@ -90,7 +93,12 @@ def generarVenta():
 
         opcion = input("Seleccione una opción: ")
         if opcion == "X" or opcion == "x":
-            print(listaProductos)
+            for producto in listaProductos:
+                for id, data in producto.items():
+                    archivos.actualizar(archivos.archivo_productos, id, data)
+
+            print(f"El total de la compra para {cliente} es de: {total}")
+            print(f"Los productos comprados son: {listaProductos}")
             break
         
         if opcion in [str(i) for i in range(0, opciones + 1)]: # Sólo continua si se elije una opcion de menú válida
@@ -100,9 +108,12 @@ def generarVenta():
                 for i, categoria in enumerate(sorted(categorias), start=1):
                     if int(opcion) == i:
                         print(f"Menu de {categoria}")
-                        productos_filtrados = {producto_id: detalles for producto_id, detalles in inventario.productos.items() if detalles["categoria"] == categoria}
+                        productos_filtrados = {producto_id: detalles for producto_id, detalles in archivos.leer_todo(archivos.archivo_productos).items() if detalles["categoria"] == categoria}
 
-                        listaProductos.append(menuProductos(productos_filtrados))
+                        productos, subtotal = menuProductos(productos_filtrados)
+                        total += subtotal
+
+                        listaProductos.append(productos)
                         break
         else:
             input("Opción inválida. Presione ENTER para volver a seleccionar.")
