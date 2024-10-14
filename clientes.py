@@ -14,6 +14,7 @@ Pendientes:
 # MÓDULOS
 #----------------------------------------------------------------------------------------------
 import re
+import funciones
 
 #----------------------------------------------------------------------------------------------
 # FUNCIONES
@@ -26,7 +27,7 @@ def validar_email(email):
     Recibe: String
     Devuelve: Booleano
     """
-    patron = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    patron = r'^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$'
     
     if re.match(patron, email):
         return True
@@ -174,6 +175,32 @@ clientes = {
     11223344: {"nombre": "Carlos", "apellido": "Rodríguez", "correo": "carlos.rodriguez@hotmail.com", "direccion": "Calle Luna 789", "telefono": "555-9012"},
     44332211: {"nombre": "Ana", "apellido": "Martínez", "correo": "ana.martinez@gmail.com", "direccion": "Calle Sol 321", "telefono": "555-3456"},
     99887766: {"nombre": "Luis", "apellido": "López", "correo": "luis.lopez@yahoo.com", "direccion": "Calle Estrella 654", "telefono": "555-7890"},
+    55667788: {"nombre": "Sofía", "apellido": "Hernández", "correo": "sofia.hernandez@gmail.com", "direccion": "Calle Palma 100", "telefono": "555-1010"},
+    33445566: {"nombre": "Pedro", "apellido": "Ramírez", "correo": "pedro.ramirez@yahoo.com", "direccion": "Av. Los Andes 234", "telefono": "555-1212"},
+    22113344: {"nombre": "Lucía", "apellido": "Vega", "correo": "lucia.vega@hotmail.com", "direccion": "Calle Libertad 789", "telefono": "555-2323"},
+    77889900: {"nombre": "Raúl", "apellido": "Mendoza", "correo": "raul.mendoza@gmail.com", "direccion": "Av. San Juan 100", "telefono": "555-3434"},
+    66778899: {"nombre": "Clara", "apellido": "Ferrer", "correo": "clara.ferrer@yahoo.com", "direccion": "Calle Roca 432", "telefono": "555-4545"},
+    99880077: {"nombre": "Manuel", "apellido": "Guzmán", "correo": "manuel.guzman@hotmail.com", "direccion": "Calle Sarmiento 567", "telefono": "555-5656"},
+    55667799: {"nombre": "Fernanda", "apellido": "Rojas", "correo": "fernanda.rojas@gmail.com", "direccion": "Av. Las Flores 987", "telefono": "555-6767"},
+    11220099: {"nombre": "Julio", "apellido": "Silva", "correo": "julio.silva@yahoo.com", "direccion": "Calle Mitre 111", "telefono": "555-7878"},
+    88990077: {"nombre": "Valeria", "apellido": "Ortega", "correo": "valeria.ortega@gmail.com", "direccion": "Calle Saavedra 222", "telefono": "555-8989"},
+    66554433: {"nombre": "Tomás", "apellido": "Suárez", "correo": "tomas.suarez@hotmail.com", "direccion": "Av. Libertador 333", "telefono": "555-9090"},
+    77665544: {"nombre": "Gabriela", "apellido": "Domínguez", "correo": "gabriela.dominguez@yahoo.com", "direccion": "Calle Belgrano 444", "telefono": "555-1122"},
+    33446688: {"nombre": "Martín", "apellido": "Escobar", "correo": "martin.escobar@gmail.com", "direccion": "Av. Los Incas 555", "telefono": "555-2233"},
+    55447766: {"nombre": "Elena", "apellido": "Pineda", "correo": "elena.pineda@hotmail.com", "direccion": "Calle Lavalle 666", "telefono": "555-3344"},
+    11334455: {"nombre": "Nicolás", "apellido": "Arce", "correo": "nicolas.arce@yahoo.com", "direccion": "Av. Córdoba 777", "telefono": "555-4455"},
+    99007711: {"nombre": "Mónica", "apellido": "Zamora", "correo": "monica.zamora@gmail.com", "direccion": "Calle San Martín 888", "telefono": "555-5566"},
+    44330022: {"nombre": "Esteban", "apellido": "Flores", "correo": "esteban.flores@hotmail.com", "direccion": "Av. Mayo 999", "telefono": "555-6677"},
+    66559988: {"nombre": "Isabel", "apellido": "Cabrera", "correo": "isabel.cabrera@yahoo.com", "direccion": "Calle Mendoza 101", "telefono": "555-7788"},
+    99887700: {"nombre": "Sebastián", "apellido": "Herrera", "correo": "sebastian.herrera@gmail.com", "direccion": "Av. Pueyrredón 202", "telefono": "555-8899"},
+    55448899: {"nombre": "Laura", "apellido": "Rivera", "correo": "laura.rivera@hotmail.com", "direccion": "Calle Rivadavia 303", "telefono": "555-9900"},
+    33442211: {"nombre": "Diego", "apellido": "Luna", "correo": "diego.luna@yahoo.com", "direccion": "Calle Viamonte 404", "telefono": "555-1011"},
+    11229988: {"nombre": "Rocío", "apellido": "Díaz", "correo": "rocio.diaz@gmail.com", "direccion": "Av. Sarmiento 505", "telefono": "555-2121"},
+    77886655: {"nombre": "Alejandro", "apellido": "Molina", "correo": "alejandro.molina@hotmail.com", "direccion": "Calle Brown 606", "telefono": "555-3232"},
+    99881122: {"nombre": "Cecilia", "apellido": "Villalba", "correo": "cecilia.villalba@gmail.com", "direccion": "Calle Moreno 707", "telefono": "555-4343"},
+    66558833: {"nombre": "Mauricio", "apellido": "Paz", "correo": "mauricio.paz@yahoo.com", "direccion": "Av. San Martín 808", "telefono": "555-5454"},
+    55443322: {"nombre": "Alicia", "apellido": "Sosa", "correo": "alicia.sosa@hotmail.com", "direccion": "Calle Colon 909", "telefono": "555-6565"},
+    11220077: {"nombre": "Javier", "apellido": "García", "correo": "javier.garcia@yahoo.com", "direccion": "Av. Alem 1010", "telefono": "555-7676"},
 }
 
 #----------------------------------------------------------------------------------------------

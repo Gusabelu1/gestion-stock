@@ -18,40 +18,62 @@ import funciones
 #----------------------------------------------------------------------------------------------
 # FUNCIONES
 #----------------------------------------------------------------------------------------------s
-def verProductos(dic):
+
+# verProductos
+def verProductos(dic): 
     """
-    Función para visualizar un listado de productos
-    Recibe: Diccionario
-    Devuelve: Nada
+    Función para visualizar un listado de productos.
+    
+    Parámetros:
+    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
+                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
+    
+    Retorna:
+    None.
     """
     for codigo, detalles in dic.items():
         print(f"Codigo: {codigo} | Nombre: {detalles["nombre"]} | Stock: {detalles["stock"]} | Precio: {detalles["precio"]} | Categoría: {detalles["categoria"]}")
     return
 
-def agregarProductos(dic):
+# agregarProductos
+def agregarProductos(dic): 
     """
-    Función para agregar un nuevo producto al listado
-    Recibe: Diccionario
-    Devuelve: Booleano
+    Función para agregar un nuevo producto al listado.
+
+    Parámetros:
+    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
+                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
+
+    Retorna:
+    bool: True si el producto se agregó exitosamente, False si no.
     """
     exito = True
-    codigo = input("Ingrese el codigo del producto o 0 para volver al menu: ").upper()
+    codigo = input("Ingrese el codigo del producto o [0] para volver al menu: ").upper()
 
     if codigo == "0":
         return
 
     while codigo in dic:
-        print(f"El codigo {codigo} ya existe")
+        print(f"El codigo {codigo} ya existe.")
         codigo = input("Ingrese el codigo del producto: ").upper()
             
     nombre = input("Ingrese el nombre del producto: ")
-    stock = int(input("Ingrese el stock del producto: "))
-    precio = int(input("Ingrese el precio por unidad del producto: "))
+    
+    while True:
+        stock = input("Ingrese el stock del producto: ")
+        if funciones.validarNumero(stock,"El stock ingresado es incorrecto."):  
+            break
+        
+    while True:
+        precio = input("Ingrese el precio por unidad del producto: ")
+        if funciones.validarNumero(precio,"El precio ingresado es incorrecto. Inténtalo de nuevo."):  
+            break
+        
     categoria = input("Ingrese la categoria del producto: ").lower()
     agregar = input("Esta seguro que desea agregar el nuevo producto? Si/No: ").lower()
 
     while agregar != "si" and agregar != "no":
-        print("Opcion no valida")
+        print("Opcion no valida.")
         agregar = input("Esta seguro que desea agregar el nuevo producto? Si/No: ").lower()
 
     if agregar == "si":
@@ -65,13 +87,19 @@ def agregarProductos(dic):
         exito = False
     return exito
 
-def modificarProducto(dic):
+# modificarProducto
+def modificarProducto(dic): 
     """
-    Función para modificar valores de un producto del listado
-    Recibe: Diccionario
-    Devuelve: 
+    Función para modificar valores de un producto del listado.
+    
+    Parámetros:
+    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
+                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
+    
+    Retorna:
+    None.
     """
-    codigo = input("Ingrese el codigo del producto que desea modificar o 0 para volver: ").upper()  
+    codigo = input("Ingrese el codigo del producto que desea modificar o [0] para volver: ").upper()  
     if codigo == "0":
         return      
     while codigo not in dic:
@@ -103,24 +131,47 @@ def modificarProducto(dic):
             break
 
         elif opcion == "1":   # Modificar nombre
-            nombre = input("Ingrese un nuevo nombre: ")
+            nombre = input("Ingrese un nuevo nombre (o [X] para cancelar): ").lower()
+            if nombre == "x": # 
+                continue
             dic[codigo]['nombre'] = nombre
+            
         elif opcion == "2":   # Modificar stock
-            stock = int(input("Ingrese un nuevo stock: "))
-            dic[codigo]['stock'] = stock
-        elif opcion == "3":   # Modificar precio
-            precio = int(input("Ingrese un nuevo precio: "))
-            dic[codigo]['precio'] = precio
+            while True:
+                stock = input("Ingrese un nuevo stock (o [X] para cancelar): ").lower()
+                if funciones.validarNumero(stock,"El stock ingresado es incorrecto."):
+                    dic[codigo]['stock'] = stock  
+                    break
+                elif stock == "x": # 
+                    break          
+            
+        elif opcion == "3":   # Modificar precio           
+            while True:
+                precio = input("Ingrese un nuevo precio (o [X] para cancelar): ").lower()
+                if funciones.validarNumero(precio,"El precio ingresado es incorrecto."):  
+                    dic[codigo]['precio'] = precio
+                    break
+                elif precio == "x": # 
+                    break 
+            
         elif opcion == "4":   # Modificar categoria
-            categoria = input("Ingrese un nuevo nombre: ")
+            categoria = input("Ingrese un nuevo nombre (o [X] para cancelar): ").lower()
+            if categoria == "x": # 
+                continue
             dic[codigo]['categoria'] = categoria             
     return 
 
+# eliminarProductos
 def eliminarProductos(dic):
     """
-    Función para eliminar un producto del listado
-    Recibe: Diccionario
-    Devuelve: Booleano
+    Función para eliminar un producto del listado.
+    
+    Parámetros:
+    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
+                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
+    
+    Retorna:
+    bool: True si el producto se eliminó exitosamente, False si no.
     """
     exito = True
     codigo = input("Ingrese el codigo del producto que desea eliminar o 0 para volver: ").upper()
@@ -163,7 +214,17 @@ productos = {
     "H-002": {"nombre": "Hub USB-C", "stock": 14, "precio": 60, "categoria": "accesorios"},
     "F-002": {"nombre": "Fuente de Poder Modular", "stock": 5, "precio": 100, "categoria": "hardware"},
     "E-002": {"nombre": "Escritorio Ajustable", "stock": 2, "precio": 400, "categoria": "mobiliario"},
-    "S-002": {"nombre": "Silla Ejecutiva", "stock": 6, "precio": 250, "categoria": "mobiliario"}
+    "S-002": {"nombre": "Silla Ejecutiva", "stock": 6, "precio": 250, "categoria": "mobiliario"},
+    "M-003": {"nombre": "Monitor 4K", "stock": 9, "precio": 850, "categoria": "monitor"},
+    "T-003": {"nombre": "Teclado Ergonómico", "stock": 8, "precio": 130, "categoria": "teclado"},
+    "R-003": {"nombre": "Ratón Gaming", "stock": 17, "precio": 70, "categoria": "ratón"},
+    "P-003": {"nombre": "Laptop Ultraligera", "stock": 4, "precio": 1800, "categoria": "ordenador"},
+    "A-003": {"nombre": "Auriculares Inalámbricos", "stock": 22, "precio": 90, "categoria": "audio"},
+    "C-003": {"nombre": "Cámara Reflex", "stock": 3, "precio": 1200, "categoria": "cámara"},
+    "H-003": {"nombre": "Hub Thunderbolt", "stock": 10, "precio": 150, "categoria": "accesorios"},
+    "F-003": {"nombre": "Fuente de Poder ATX", "stock": 7, "precio": 110, "categoria": "hardware"},
+    "E-003": {"nombre": "Escritorio Gaming", "stock": 5, "precio": 450, "categoria": "mobiliario"},
+    "S-003": {"nombre": "Silla de Oficina", "stock": 11, "precio": 350, "categoria": "mobiliario"}
 }
 
 #----------------------------------------------------------------------------------------------
@@ -171,9 +232,11 @@ productos = {
 #----------------------------------------------------------------------------------------------
 def gestionInventario():
     """
-    Función que representa el main del inventario
-    Recibe: Nada
-    Devuelve: Nada
+        Función que representa el menú principal del inventario.
+        
+        Recibe: Nada.
+        
+        Retorna: None.
     """
     while True:
             opciones = 5
