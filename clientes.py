@@ -23,7 +23,7 @@ clientes = {}
 
 def validar_email(email):
     """
-    Funcion que valida mediante expresion regualar el ingreso de un email
+    Funcion que valida mediante expresion regular el ingreso de un email
     Recibe: String
     Devuelve: Booleano
     """
@@ -70,7 +70,7 @@ def crearCliente(dic):
 
     while agregar != "si" and agregar != "no":
         print("Opcion no valida")
-        agregar = input("Esta seguro que desea agregar el nuevo producto? Si/No: ").lower()
+        agregar = input("Esta seguro que desea agregar el nuevo cliente? Si/No: ").lower()
 
     if agregar == "si":
         dic[dni] = {
@@ -112,7 +112,7 @@ def actualizarCliente(dic):
             print("[0] Volver")
             print()
                 
-            opcion = input("Seleccione una opción: ")
+            opcion = int(input("Seleccione una opción: "))
             if opcion in [str(i) for i in range(0, opciones)]: # Sólo continua si se elije una opcion de menú válida
                 break
             else:
