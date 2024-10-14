@@ -110,7 +110,8 @@ def modificarProducto(dic):
         while True:
             print()
             print("-----------------------------")
-            print(f" MENÚ PARA MODIFICAR ({codigo})")
+            print(f" MENÚ PARA MODIFICAR \n")
+            print(f"Codigo: {codigo} | Nombre: {dic[codigo]["nombre"]} | Stock: {dic[codigo]["stock"]} | Precio: {dic[codigo]["precio"]} | Categoría: {dic[codigo]["categoria"]}")
             print("-----------------------------")
             print("[1] Modificar nombre")
             print("[2] Modificar stock")
@@ -135,12 +136,15 @@ def modificarProducto(dic):
             if nombre == "x": # 
                 continue
             dic[codigo]['nombre'] = nombre
-            
+            print(f"\nEl nombre de {codigo} se modifico con exito")
+
         elif opcion == "2":   # Modificar stock
             while True:
                 stock = input("Ingrese un nuevo stock (o [X] para cancelar): ").lower()
                 if funciones.validarNumero(stock,"El stock ingresado es incorrecto."):
                     dic[codigo]['stock'] = stock  
+                    print(f"\nEl stock de {codigo} se modifico con exito")
+
                     break
                 elif stock == "x": # 
                     break          
@@ -150,6 +154,8 @@ def modificarProducto(dic):
                 precio = input("Ingrese un nuevo precio (o [X] para cancelar): ").lower()
                 if funciones.validarNumero(precio,"El precio ingresado es incorrecto."):  
                     dic[codigo]['precio'] = precio
+                    print(f"\nEl precio de {codigo} se modifico con exito")
+
                     break
                 elif precio == "x": # 
                     break 
@@ -158,7 +164,9 @@ def modificarProducto(dic):
             categoria = input("Ingrese un nuevo nombre (o [X] para cancelar): ").lower()
             if categoria == "x": # 
                 continue
-            dic[codigo]['categoria'] = categoria             
+            dic[codigo]['categoria'] = categoria 
+            print(f"\nLa categoria de {codigo} se modifico con exito")
+            
     return 
 
 # eliminarProductos
@@ -181,6 +189,9 @@ def eliminarProductos(dic):
     while codigo not in dic:
         print(f"El codigo {codigo} no existe")
         codigo = input("Ingrese el codigo del producto que desea eliminar: ").upper()
+
+    
+    print(f"Codigo: {codigo} | Nombre: {dic[codigo]["nombre"]} | Stock: {dic[codigo]["stock"]} | Precio: {dic[codigo]["precio"]} | Categoría: {dic[codigo]["categoria"]}")
 
     eliminar = input("Esta seguro que desea eliminar el producto? Si/No: ").lower()
 
