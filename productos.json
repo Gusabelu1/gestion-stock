@@ -31,7 +31,7 @@
     },
     "C-001": {
         "nombre": "C\u00e1mara Web",
-        "stock": 2,
+        "stock": 12,
         "precio": 150,
         "categoria": "c\u00e1mara"
     },
@@ -91,7 +91,7 @@
     },
     "C-002": {
         "nombre": "C\u00e1mara de Seguridad",
-        "stock": 3,
+        "stock": 9,
         "precio": 300,
         "categoria": "c\u00e1mara"
     },
@@ -117,6 +117,66 @@
         "nombre": "Silla Ejecutiva",
         "stock": 6,
         "precio": 250,
+        "categoria": "mobiliario"
+    },
+    "M-003": {
+        "nombre": "Monitor 4K",
+        "stock": 9,
+        "precio": 850,
+        "categoria": "monitor"
+    },
+    "T-003": {
+        "nombre": "Teclado Ergon\u00f3mico",
+        "stock": 8,
+        "precio": 130,
+        "categoria": "teclado"
+    },
+    "R-003": {
+        "nombre": "Rat\u00f3n Gaming",
+        "stock": 17,
+        "precio": 70,
+        "categoria": "rat\u00f3n"
+    },
+    "P-003": {
+        "nombre": "Laptop Ultraligera",
+        "stock": 4,
+        "precio": 1800,
+        "categoria": "ordenador"
+    },
+    "A-003": {
+        "nombre": "Auriculares Inal\u00e1mbricos",
+        "stock": 22,
+        "precio": 90,
+        "categoria": "audio"
+    },
+    "C-003": {
+        "nombre": "C\u00e1mara Reflex",
+        "stock": 3,
+        "precio": 1200,
+        "categoria": "c\u00e1mara"
+    },
+    "H-003": {
+        "nombre": "Hub Thunderbolt",
+        "stock": 10,
+        "precio": 150,
+        "categoria": "accesorios"
+    },
+    "F-003": {
+        "nombre": "Fuente de Poder ATX",
+        "stock": 7,
+        "precio": 110,
+        "categoria": "hardware"
+    },
+    "E-003": {
+        "nombre": "Escritorio Gaming",
+        "stock": 5,
+        "precio": 450,
+        "categoria": "mobiliario"
+    },
+    "S-003": {
+        "nombre": "Silla de Oficina",
+        "stock": 11,
+        "precio": 350,
         "categoria": "mobiliario"
     }
 }

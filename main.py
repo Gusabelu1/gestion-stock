@@ -2,8 +2,7 @@
 -----------------------------------------------------------------------------------------------
 Título: Equipo 02 - TP
 Fecha: 23/09/2024
-Autor:
-Santino Castro
+Autor: Grupo 02
 
 Descripción:
 Sistema de gestión de productos, proveedores y clientes de un comercio electrónico dedicado 

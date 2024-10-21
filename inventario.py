@@ -13,197 +13,178 @@ Pendientes:
 #----------------------------------------------------------------------------------------------
 # MÓDULOS
 #----------------------------------------------------------------------------------------------
-import funciones
+import funciones, archivos
 
 #----------------------------------------------------------------------------------------------
 # FUNCIONES
 #----------------------------------------------------------------------------------------------s
 
 # verProductos
-def verProductos(dic): 
+def verProductos(categoria = None, id = None): 
     """
     Función para visualizar un listado de productos.
     
     Parámetros:
-    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
-                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
+    categoria   : String (default None): Categoría para filtrar o None para no filtrar.
+    id          : String (default None): ID para filtrar o None para no filtrar.
     
     Retorna:
     None.
     """
+    diccionario = archivos.leer_todo(archivos.archivo_productos)
+
+    if categoria:
+        dic = {clave: diccionario[clave] for clave in diccionario if diccionario[clave]["categoria"] == categoria}
+    elif id:
+        dic = {clave: diccionario[clave] for clave in diccionario if clave == id}
+    else:
+        dic = diccionario
+
     for codigo, detalles in dic.items():
         print(f"Codigo: {codigo} | Nombre: {detalles["nombre"]} | Stock: {detalles["stock"]} | Precio: {detalles["precio"]} | Categoría: {detalles["categoria"]}")
     return
 
 # agregarProductos
-def agregarProductos(dic): 
+def agregarProductos(): 
     """
     Función para agregar un nuevo producto al listado.
 
     Parámetros:
-    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
-                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
+    None
 
     Retorna:
-    bool: True si el producto se agregó exitosamente, False si no.
+    Int : 0 Si la operacion fué exitosa, 1 si hubo algun error.
     """
-    exito = True
     codigo = input("Ingrese el codigo del producto o [0] para volver al menu: ").upper()
 
     if codigo == "0":
-        return
-
-    while codigo in dic:
-        print(f"El codigo {codigo} ya existe.")
-        codigo = input("Ingrese el codigo del producto: ").upper()
+        return 1
             
     nombre = input("Ingrese el nombre del producto: ")
     
-    while True:
-        stock = input("Ingrese el stock del producto: ")
-        if funciones.validarNumero(stock,"El stock ingresado es incorrecto."):  
-            break
+    stock = input("Ingrese el stock del producto: ")
+    while funciones.validarNumero(stock,"El stock ingresado no es válido.") == False:
+        stock = input("Ingrese el stock del producto nuevamente: ")
         
-    while True:
-        precio = input("Ingrese el precio por unidad del producto: ")
-        if funciones.validarNumero(precio,"El precio ingresado es incorrecto. Inténtalo de nuevo."):  
-            break
+    precio = input("Ingrese el precio por unidad del producto: ")
+    while funciones.validarNumero(precio,"El precio ingresado no es válido.") == False:
+        precio = input("Ingrese el precio por unidad del producto nuevamente: ")
         
     categoria = input("Ingrese la categoria del producto: ").lower()
-    agregar = input("Esta seguro que desea agregar el nuevo producto? Si/No: ").lower()
+    agregar = input("Esta seguro que desea agregar el nuevo producto? \n[x] Confirmar | [0] Cancelar: ").lower()
 
-    while agregar != "si" and agregar != "no":
+    while agregar != "x" and agregar != "0":
         print("Opcion no valida.")
-        agregar = input("Esta seguro que desea agregar el nuevo producto? Si/No: ").lower()
+        agregar = input("Esta seguro que desea agregar el nuevo producto? \n[x] Confirmar | [0] Cancelar: ").lower()
 
-    if agregar == "si":
-        dic[codigo] = {
-            "nombre": nombre,
-            "stock": stock,
-            "precio": precio,
-            "categoria": categoria
+    if agregar == "x":
+        producto = {
+            codigo: {
+                "nombre": nombre,
+                "stock": int(stock),
+                "precio": int(precio),
+                "categoria": categoria
+            }
         }
+
+        return archivos.crear(archivos.archivo_productos, producto)
     else:
-        exito = False
-    return exito
+        return 1
 
 # modificarProducto
-def modificarProducto(dic): 
+def modificarProducto(): 
     """
     Función para modificar valores de un producto del listado.
     
     Parámetros:
-    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
-                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
+    None
     
     Retorna:
-    None.
+    Int : 0 Si la operacion fué exitosa, 1 si hubo algun error.
     """
-    codigo = input("Ingrese el codigo del producto que desea modificar o [0] para volver: ").upper()  
+    diccionario = archivos.leer_todo(archivos.archivo_productos)
+    codigo = input("Ingrese el codigo del producto que desea modificar o [0] para cancelar: ").upper()  
+    
+    while codigo not in diccionario and codigo != "0":
+        print(f"El producto con código {codigo} no existe.")
+        codigo = input("Ingrese el nuevamente el codigo del producto que desea modificar o [0] para cancelar: ").upper()     
+    
     if codigo == "0":
-        return      
-    while codigo not in dic:
-        print(f"El codigo {codigo} ya existe")
-        codigo = input("Ingrese el codigo del producto que desea modificar: ").upper()            
-    while True:
-        opciones = 5
-        while True:
-            print()
-            print("-----------------------------")
-            print(f" MENÚ PARA MODIFICAR \n")
-            print(f"Codigo: {codigo} | Nombre: {dic[codigo]["nombre"]} | Stock: {dic[codigo]["stock"]} | Precio: {dic[codigo]["precio"]} | Categoría: {dic[codigo]["categoria"]}")
-            print("-----------------------------")
-            print("[1] Modificar nombre")
-            print("[2] Modificar stock")
-            print("[3] Modificar precio")
-            print("[4] Modificar categoria")
-            print("---------------------------")
-            print("[0] Volver")
-            print()
-                
-            opcion = input("Seleccione una opción: ")
-            if opcion in [str(i) for i in range(0, opciones)]: # Sólo continua si se elije una opcion de menú válida
-                break
-            else:
-                input("Opción inválida. Presione ENTER para volver a seleccionar.")
-        print()
+        return 1
+    
+    producto = diccionario[codigo]
 
-        if opcion == "0": # Opción salir del programa
+    print("Nombre actual del producto: ", diccionario[codigo]["nombre"])
+    nombre = input("Ingrese el nuevo nombre del producto | [Enter] para no modificar: ")
+    if nombre != "":
+        producto['nombre'] = nombre
+    
+    print("Stock actual del producto: ", diccionario[codigo]["stock"])
+    stock = input("Ingrese el nuevo stock del producto | [Enter] para no modificar: ")
+    while stock != "":
+        if funciones.validarNumero(stock,"El stock ingresado no es válido."):
+            producto['stock'] = int(stock)
             break
+        stock = input("Ingrese nuevamente el stock del producto | [Enter] para no modificar: ")
 
-        elif opcion == "1":   # Modificar nombre
-            nombre = input("Ingrese un nuevo nombre (o [X] para cancelar): ").lower()
-            if nombre == "x": # 
-                continue
-            dic[codigo]['nombre'] = nombre
-            print(f"\nEl nombre de {codigo} se modifico con exito")
+        
+    print("Precio actual del producto: ", diccionario[codigo]["precio"])
+    precio = input("Ingrese el nuevo precio del producto | [Enter] para no modificar: ")
+    while precio != "":
+        if funciones.validarNumero(precio,"El precio ingresado no es válido."):
+            producto['precio'] = int(precio)
+            break
+        precio = input("Ingrese nuevamente el precio del producto | [Enter] para no modificar: ")
+        
+    print("Categoría actual del producto: ", diccionario[codigo]["categoria"])
+    categoria = input("Ingrese la nueva categoria del producto | [Enter] para no modificar: : ").lower()
+    if categoria != "":
+        producto['categoria'] = categoria
 
-        elif opcion == "2":   # Modificar stock
-            while True:
-                stock = input("Ingrese un nuevo stock (o [X] para cancelar): ").lower()
-                if funciones.validarNumero(stock,"El stock ingresado es incorrecto."):
-                    dic[codigo]['stock'] = stock  
-                    print(f"\nEl stock de {codigo} se modifico con exito")
+    actualizar = input(f"Esta seguro que desea actualizar el producto {codigo}? \n[x] Confirmar | [0] Cancelar: ").lower()
 
-                    break
-                elif stock == "x": # 
-                    break          
-            
-        elif opcion == "3":   # Modificar precio           
-            while True:
-                precio = input("Ingrese un nuevo precio (o [X] para cancelar): ").lower()
-                if funciones.validarNumero(precio,"El precio ingresado es incorrecto."):  
-                    dic[codigo]['precio'] = precio
-                    print(f"\nEl precio de {codigo} se modifico con exito")
+    while actualizar != "x" and actualizar != "0":
+        print("Opcion no valida.")
+        actualizar = input(f"Esta seguro que desea actualizar el producto {codigo}? \n[x] Confirmar | [0] Cancelar: ").lower()
 
-                    break
-                elif precio == "x": # 
-                    break 
-            
-        elif opcion == "4":   # Modificar categoria
-            categoria = input("Ingrese un nuevo nombre (o [X] para cancelar): ").lower()
-            if categoria == "x": # 
-                continue
-            dic[codigo]['categoria'] = categoria 
-            print(f"\nLa categoria de {codigo} se modifico con exito")
-            
-    return 
+    if actualizar == "x":
+        return archivos.actualizar(archivos.archivo_productos, codigo, producto)
+    else:
+        return 1
 
 # eliminarProductos
-def eliminarProductos(dic):
+def eliminarProductos():
     """
     Función para eliminar un producto del listado.
     
     Parámetros:
-    dic (dict): Diccionario que contiene los productos, donde la clave es el código del producto 
-                y el valor es un diccionario con los detalles del producto (nombre, stock, precio, categoría).
-    
+    None
+
     Retorna:
     bool: True si el producto se eliminó exitosamente, False si no.
     """
-    exito = True
-    codigo = input("Ingrese el codigo del producto que desea eliminar o 0 para volver: ").upper()
+    diccionario = archivos.leer_todo(archivos.archivo_productos)
+    codigo = input("Ingrese el codigo del producto que desea eliminar o [0] para cancelar: ").upper()
+    
+    while codigo not in diccionario and codigo != "0":
+        print(f"El codigo {codigo} no existe.")
+        codigo = input("Ingrese el codigo del producto que desea eliminar o [0] para cancelar: ").upper()
+
     if codigo == "0":
-        return
+        return 1
     
-    while codigo not in dic:
-        print(f"El codigo {codigo} no existe")
-        codigo = input("Ingrese el codigo del producto que desea eliminar: ").upper()
+    verProductos(id = codigo)
 
-    
-    print(f"Codigo: {codigo} | Nombre: {dic[codigo]["nombre"]} | Stock: {dic[codigo]["stock"]} | Precio: {dic[codigo]["precio"]} | Categoría: {dic[codigo]["categoria"]}")
+    eliminar = input("Esta seguro que desea actualizar el nuevo producto? \n[x] Confirmar | [0] Cancelar: ").lower()
 
-    eliminar = input("Esta seguro que desea eliminar el producto? Si/No: ").lower()
-
-    while eliminar != "si" and eliminar != "no":
+    while eliminar != "x" and eliminar != "0":
         print("Opcion no valida")
-        eliminar = input("Esta seguro que desea eliminar el producto? Si/No: ").lower()
+        eliminar = input("Esta seguro que desea actualizar el nuevo producto? \n[x] Confirmar | [0] Cancelar: ").lower()
 
-    if eliminar == "si":
-        dic.pop(codigo)
+    if eliminar == "x":
+        return archivos.borrar(archivos.archivo_productos, codigo)
     else:
-        exito = False
-    return exito
+        return 1
 
 productos = {
     "M-001": {"nombre": "Monitor", "stock": 10, "precio": 500, "categoria": "monitor"},
@@ -271,21 +252,21 @@ def gestionInventario():
                     input("Opción inválida. Presione ENTER para volver a seleccionar.")
             print()
 
-            if opcion == "0": # Opción salir del programa
+            if opcion == "0": # Opción salir del inventario
                 break
 
-            elif opcion == "1":   # Generar Venta
-                verProductos(productos)
-            elif opcion == "2":   # Administrar Inventario
-                if agregarProductos(productos):
-                    print("Producto agregado con exito")
+            elif opcion == "1": # Ver Invetnario
+                verProductos()
+            elif opcion == "2": # Agregar Productos
+                if agregarProductos():
+                    print("No se pudo agregar el producto.")
                 else:
-                    print("El producto no fue agregado")
-            elif opcion == "3":   # Administrar Clientes
-                modificarProducto(productos)
-            elif opcion == "4":   # Historial de Ventas
-                if eliminarProductos(productos):
-                    print("Producto eliminado con exito")
+                    print("Producto agregado con exito.")
+            elif opcion == "3": # Modificar Productos
+                modificarProducto()
+            elif opcion == "4": # Eliminar Productos
+                if eliminarProductos():
+                    print("No se pudo eliminar el producto.")
                 else:
-                    print("El producto no fue eliminado")
+                    print("Producto eliminado con exito.")
     return

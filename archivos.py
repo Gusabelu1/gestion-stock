@@ -2,28 +2,28 @@ import json
 
 usuario = "admin"
 
-def leer_archivo(archivo):
+def leerArchivo(archivo):
     """
         Lee el .json especificado y devuelve los datos como un diccionario.
         Recibe: String
         Devuelve: Diccionario o Int
     """
     try:
-        with open(archivo, 'r') as f:
+        with open(archivo, 'r', encoding='utf-8') as f:
             return json.load(f)
     except:
         if usuario == "admin":
             print("Ocurrio un error al leer el archivo.")
         return 1
 
-def escribir_archivo(archivo, datos):
+def escribirArchivo(archivo, datos):
     """
         Escribe los datos en un .json especificado.
         Recibe: String y Diccionario
         Devuelve: Int
     """
     try:
-        with open(archivo, 'w') as f:
+        with open(archivo, 'w', encoding='utf-8') as f:
             json.dump(datos, f, indent=4)
         return 0
     except:
@@ -38,7 +38,7 @@ def crear(archivo, data):
         Devuelve: Int
     """
     try:
-        datos = leer_archivo(archivo)
+        datos = leerArchivo(archivo)
         
         id = list(data.keys())[0]
         
@@ -47,9 +47,8 @@ def crear(archivo, data):
             return 1
         
         datos[id] = data[id]
-        escribir_archivo(archivo, datos)
-        print(f"Se agregó el registro con el ID {id} en {archivo}")
-        return 0
+        # print(f"Se agregó el registro con el ID {id} en {archivo}")
+        return escribirArchivo(archivo, datos)
     except:
         return 1
 
@@ -60,7 +59,7 @@ def leer_todo(archivo):
         Devuelve: Diccionario o Int
     """
     
-    return leer_archivo(archivo)
+    return leerArchivo(archivo)
 
 def actualizar(archivo, id, data):
     """
@@ -68,28 +67,28 @@ def actualizar(archivo, id, data):
         Recibe: String y Diccionario
         Devuelve: Int
     """
-    datos = leer_archivo(archivo)
+    datos = leerArchivo(archivo)
     
     if id in datos:
         datos[id] = data  # Actualizamos los datos
-        print(f"Se modificó el registro con el ID {id} en {archivo}")
-        return escribir_archivo(archivo, datos)
+        # print(f"Se modificó el registro con el ID {id} en {archivo}")
+        return escribirArchivo(archivo, datos)
     else:
         print(f"No se encontró el registro con el ID {id} en {archivo}")
         return 1
 
 def borrar(archivo, id):
     """
-        Borra un registro en el .json según el ID del registro.
+        Borra un registro en el .json según el ID recibido por parámetro.
         Recibe: String y Int
         Devuelve: Int
     """
-    datos = leer_archivo(archivo)
+    datos = leerArchivo(archivo)
     
     if id in datos:
         del datos[id]
-        print(f"Se borró el registro con el ID {id} de {archivo}")
-        return escribir_archivo(archivo, datos)
+        # print(f"Se borró el registro con el ID {id} de {archivo}")
+        return escribirArchivo(archivo, datos)
     else:
         print(f"No se encontró el registro con el ID {id} en {archivo}")
         return 1
