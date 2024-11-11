@@ -175,49 +175,16 @@ def eliminarProductos():
     
     verProductos(id = codigo)
 
-    eliminar = input("Esta seguro que desea actualizar el nuevo producto? \n[x] Confirmar | [0] Cancelar: ").lower()
+    eliminar = input("Esta seguro que desea eliminar el producto? \n[x] Confirmar | [0] Cancelar: ").lower()
 
     while eliminar != "x" and eliminar != "0":
         print("Opcion no valida")
-        eliminar = input("Esta seguro que desea actualizar el nuevo producto? \n[x] Confirmar | [0] Cancelar: ").lower()
+        eliminar = input("Esta seguro que desea eliminar el producto? \n[x] Confirmar | [0] Cancelar: ").lower()
 
     if eliminar == "x":
         return archivos.borrar(archivos.archivo_productos, codigo)
     else:
         return 1
-
-productos = {
-    "M-001": {"nombre": "Monitor", "stock": 10, "precio": 500, "categoria": "monitor"},
-    "T-001": {"nombre": "Teclado", "stock": 5, "precio": 100, "categoria": "teclado"},
-    "R-001": {"nombre": "Ratón", "stock": 15, "precio": 50, "categoria": "ratón"},
-    "P-001": {"nombre": "Portátil", "stock": 8, "precio": 1200, "categoria": "ordenador"},
-    "A-001": {"nombre": "Auriculares", "stock": 25, "precio": 80, "categoria": "audio"},
-    "C-001": {"nombre": "Cámara Web", "stock": 12, "precio": 150, "categoria": "cámara"},
-    "H-001": {"nombre": "Hub USB", "stock": 30, "precio": 40, "categoria": "accesorios"},
-    "F-001": {"nombre": "Fuente de Poder", "stock": 10, "precio": 75, "categoria": "hardware"},
-    "E-001": {"nombre": "Escritorio", "stock": 5, "precio": 200, "categoria": "mobiliario"},
-    "S-001": {"nombre": "Silla Gamer", "stock": 7, "precio": 300, "categoria": "mobiliario"},
-    "M-002": {"nombre": "Monitor UltraWide", "stock": 6, "precio": 700, "categoria": "monitor"},
-    "T-002": {"nombre": "Teclado Mecánico", "stock": 4, "precio": 150, "categoria": "teclado"},
-    "R-002": {"nombre": "Ratón Inalámbrico", "stock": 20, "precio": 60, "categoria": "ratón"},
-    "P-002": {"nombre": "PC Gaming", "stock": 3, "precio": 2000, "categoria": "ordenador"},
-    "A-002": {"nombre": "Altavoces", "stock": 18, "precio": 120, "categoria": "audio"},
-    "C-002": {"nombre": "Cámara de Seguridad", "stock": 9, "precio": 300, "categoria": "cámara"},
-    "H-002": {"nombre": "Hub USB-C", "stock": 14, "precio": 60, "categoria": "accesorios"},
-    "F-002": {"nombre": "Fuente de Poder Modular", "stock": 5, "precio": 100, "categoria": "hardware"},
-    "E-002": {"nombre": "Escritorio Ajustable", "stock": 2, "precio": 400, "categoria": "mobiliario"},
-    "S-002": {"nombre": "Silla Ejecutiva", "stock": 6, "precio": 250, "categoria": "mobiliario"},
-    "M-003": {"nombre": "Monitor 4K", "stock": 9, "precio": 850, "categoria": "monitor"},
-    "T-003": {"nombre": "Teclado Ergonómico", "stock": 8, "precio": 130, "categoria": "teclado"},
-    "R-003": {"nombre": "Ratón Gaming", "stock": 17, "precio": 70, "categoria": "ratón"},
-    "P-003": {"nombre": "Laptop Ultraligera", "stock": 4, "precio": 1800, "categoria": "ordenador"},
-    "A-003": {"nombre": "Auriculares Inalámbricos", "stock": 22, "precio": 90, "categoria": "audio"},
-    "C-003": {"nombre": "Cámara Reflex", "stock": 3, "precio": 1200, "categoria": "cámara"},
-    "H-003": {"nombre": "Hub Thunderbolt", "stock": 10, "precio": 150, "categoria": "accesorios"},
-    "F-003": {"nombre": "Fuente de Poder ATX", "stock": 7, "precio": 110, "categoria": "hardware"},
-    "E-003": {"nombre": "Escritorio Gaming", "stock": 5, "precio": 450, "categoria": "mobiliario"},
-    "S-003": {"nombre": "Silla de Oficina", "stock": 11, "precio": 350, "categoria": "mobiliario"}
-}
 
 #----------------------------------------------------------------------------------------------
 # CUERPO PRINCIPAL
